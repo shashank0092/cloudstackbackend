@@ -1,5 +1,5 @@
 const bcrypt=require("bcryptjs")
-
+const jwt=require("jsonwebtoken")
 const User=require("../models/User")
 
 const Register=async(req,res)=>{
@@ -26,4 +26,38 @@ const Register=async(req,res)=>{
     }
 }
 
-module.exports={Register}
+
+const Login=async(req,res)=>{
+    const{userdetails,password}=req.body;
+
+    if(!userdetails||!password){
+        return res.json({message:"All Fileds Are Required"})
+    }
+   
+    try{
+        const user=await User.findOne({$or:[{username:userdetails},{email:userdetails}]})
+
+        if(user){
+            const isPassMatching=await bcrypt.compare(password,user.password)
+            
+            if(!isPassMatching){
+                return res.status(412).json({message:"Invalid Details"})
+            }
+            else{
+                const payload={username:user.username,email:user.email}
+                const token=jwt.sign(payload,process.env.SECRET_KEY,{expiresIn:"1h"})
+                return res.json({token:token,username:user.username}).status(200);
+            }
+        }
+        else{
+            return res.json({message:"Please First Register"}).status(201)
+        }
+      
+    }
+
+    catch(err){
+        console.log(err)
+    }
+}
+
+module.exports={Register,Login}
