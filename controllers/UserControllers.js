@@ -46,7 +46,7 @@ const Login=async(req,res)=>{
             else{
                 const payload={username:user.username,email:user.email}
                 const token=jwt.sign(payload,process.env.SECRET_KEY,{expiresIn:"1h"})
-                return res.json({token:token,username:user.username}).status(200);
+                return res.json({token:token,username:user.username,message:"Succesfully Login"}).status(200);
             }
         }
         else{
