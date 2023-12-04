@@ -15,7 +15,8 @@ const sendPushNotification = (fcmToken, payload) => {
             title: payload.title,
             body: payload.body,
         },
-        data: payload.data, // Additional data to send to the app
+        data: payload.data,
+        token: 'device-or-user-token',
     };
 
     admin.messaging().send(message)
@@ -101,15 +102,17 @@ const Profile = async (req, res) => {
 
             else {
                 const user = await User.findOne({ $or: [{ username: userdetails }, { email: userdetails }] })
-
-                const fcmToken = await user.FCMToken; // Retrieve from your database
+                console.log(user?.FCMToken,"THAT IS FCM TOKEN")
+                const fcmToken = await user?.FCMToken; // Retrieve from your database
                 const notificationPayload = {
                     title: 'Hello Sir',
                     body: 'I am shashank shukla',
                     
                 };
                 sendPushNotification(fcmToken, notificationPayload);
+
                 if (!user) {
+
                     return res.json({ message: "Please Give Valid User Details" }).status(201)
                 }
                 else {

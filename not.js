@@ -1,8 +1,8 @@
 const admin = require('firebase-admin');
-
+const serviceAccount = require('./serviceAccountKey.json');
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert('./serviceAccountKey.json'),
+  credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://cloudstack-edd72.firebaseio.com',
 });
 
@@ -27,13 +27,11 @@ const sendPushNotification = (fcmToken, payload) => {
 };
 
 // Example usage
-const fcmToken = 'e2aRsgPOoPNRKv9xczD4Lv:APA91bEHYnhd_tdhynEWMa_5SLnkRihN6fbaEb9enc4ijU7fsW-9s7WyATVu0Wq2d48tzt2wCMY_wlDyIHksHlyo13CcFDJSvMNhItxXS7i20jUjqxnUgI77TygFuEvE8sxzP0EPmDAH'; // Retrieve from your database
+const fcmToken = 'c0gjtk8OAUj3DrmO_eCEwF:APA91bFVkmJkwrheCf-Lao_XwPFFJfrU2slGDJKVqhHPOgG9u9ZK5iGmFlC4DGO-XhX9gsUjVYyqfMrcWag0_UuQZMl2Xbsxghe8DTZsQXRf80O8XLWfMhCQzheoiJ4odJgJDoZUdLvP'; // Retrieve from your database
 const notificationPayload = {
   title: 'Hello Sir',
   body: 'I am shashank shukla',
-  data: {
-    
-  },
+ 
 };
 
 sendPushNotification(fcmToken, notificationPayload);
