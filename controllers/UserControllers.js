@@ -110,7 +110,7 @@ const Profile = async (req, res) => {
                     
                 };
                 sendPushNotification(fcmToken, notificationPayload);
-
+                console.log("don wrok")
                 if (!user) {
 
                     return res.json({ message: "Please Give Valid User Details" }).status(201)
