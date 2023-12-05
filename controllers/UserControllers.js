@@ -121,6 +121,7 @@ const Profile = async (req, res) => {
                     return res.json({ message: "Please Give Valid User Details" }).status(201)
                 }
                 else {
+                    console.log("this is fcm toekn",fcmToken)
                     sendPushNotification(fcmToken, notificationPayload);
                     return res.json({ message: "Valid User", data: user })
                 }
