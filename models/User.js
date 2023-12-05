@@ -13,10 +13,7 @@ const UserSchema=new mongoose.Schema({
         type:String,
         require:true
     },
-    FCMToken:{
-        type:String,
-        require:true
-    }
+    
 })
 
 const UserDetails=mongoose.model('UserDetails',UserSchema)

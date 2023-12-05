@@ -27,7 +27,7 @@ const sendPushNotification = (fcmToken, payload) => {
 };
 
 // Example usage
-const fcmToken = 'c0gjtk8OAUj3DrmO_eCEwF:APA91bFVkmJkwrheCf-Lao_XwPFFJfrU2slGDJKVqhHPOgG9u9ZK5iGmFlC4DGO-XhX9gsUjVYyqfMrcWag0_UuQZMl2Xbsxghe8DTZsQXRf80O8XLWfMhCQzheoiJ4odJgJDoZUdLvP'; // Retrieve from your database
+const fcmToken = 'dhUQ2p6dhS5N-gGeg4DP8b:APA91bG3-pB7MolXw6XxJSSy2pAkKX7ck_-AE--ebXIwrxVzpjK3qFiMz9BJ3CUANhYBPi6Yx_EkpYRmylr9uRol9_-0xCcnN6wvL75val1T2mzS4L4Bdu9umRJC-3t2x83i0bFplapX'; // Retrieve from your database
 const notificationPayload = {
   title: 'Hello Sir',
   body: 'I am shashank shukla',

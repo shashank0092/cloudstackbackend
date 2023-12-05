@@ -1,6 +1,6 @@
 const express=require("express")
 const cors=require("cors");
-
+const UserMiddleWare=require("./middleware/User")
 
 
 const dotenv=require("dotenv")
@@ -13,6 +13,7 @@ app.use(cors({
 }))
 
 
+console.log(process.env.SECRET_KEY)
 require("./db/connection")
 
 app.get("/",async(req,res)=>{

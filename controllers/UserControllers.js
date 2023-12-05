@@ -2,21 +2,22 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("../models/User")
 const admin = require('firebase-admin');
+const serviceAccount = require("../serviceAccountKey.json");
 
 admin.initializeApp({
-    credential: admin.credential.cert('./serviceAccountKey.json'),
+    credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://cloudstack-edd72.firebaseio.com',
 });
 
 const sendPushNotification = (fcmToken, payload) => {
     const message = {
-        token: fcmToken,
+        token:fcmToken,
         notification: {
             title: payload.title,
             body: payload.body,
         },
         data: payload.data,
-        token: 'device-or-user-token',
+        
     };
 
     admin.messaging().send(message)
@@ -43,7 +44,7 @@ const Register = async (req, res) => {
         }
         else {
             const hasedPassword = await bcrypt.hash(password, 12)
-            const newUser = await User.create({ email, username, password: hasedPassword, FCMToken: FCMToken })
+            const newUser = await User.create({ email, username, password: hasedPassword})
             return res.json({ message: "Succesfully Register" }).status(200)
         }
     }
@@ -88,34 +89,40 @@ const Login = async (req, res) => {
 }
 
 const Profile = async (req, res) => {
+ 
     jwt.verify(req.token, process.env.SECRET_KEY, async (err, authData) => {
+        
         if (err) {
-            res.json({ message: "Not A valid User" }).status(401)
+            
+            return res.json({ message: "Not A valid User" }).status(401)
         }
         else {
-            const { userdetails } = req.body;
+         
+            const { userdetails,fcmToken } = req.body;
+            console.log(fcmToken,"THIS IS FCMTOKEN")
             const token = req.headers['authorization']
 
-            if (!userdetails || !token) {
+            if (!userdetails || !token||!fcmToken) {
                 return res.json({ message: "Please Login Agian" })
             }
 
             else {
                 const user = await User.findOne({ $or: [{ username: userdetails }, { email: userdetails }] })
-                console.log(user?.FCMToken,"THAT IS FCM TOKEN")
-                const fcmToken = await user?.FCMToken; // Retrieve from your database
+                
+                 
                 const notificationPayload = {
                     title: 'Hello Sir',
                     body: 'I am shashank shukla',
                     
                 };
-                sendPushNotification(fcmToken, notificationPayload);
-                console.log("don wrok")
+               
                 if (!user) {
 
                     return res.json({ message: "Please Give Valid User Details" }).status(201)
                 }
                 else {
+                    sendPushNotification('dhUQ2p6dhS5N-gGeg4DP8b:APA91bG3-pB7MolXw6XxJSSy2pAkKX7ck_-AE--ebXIwrxVzpjK3qFiMz9BJ3CUANhYBPi6Yx_EkpYRmylr9uRol9_-0xCcnN6wvL75val1T2mzS4L4Bdu9umRJC-3t2x83i0bFplapX', notificationPayload);
+                    console.log("don wrok")
                     return res.json({ message: "Valid User", data: user })
                 }
             }
