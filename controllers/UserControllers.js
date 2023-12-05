@@ -99,7 +99,7 @@ const Profile = async (req, res) => {
         else {
          
             const { userdetails,fcmToken } = req.body;
-            console.log(fcmToken,"THIS IS FCMTOKEN")
+            
             const token = req.headers['authorization']
 
             if (!userdetails || !token||!fcmToken) {
@@ -122,7 +122,6 @@ const Profile = async (req, res) => {
                 }
                 else {
                     sendPushNotification('dhUQ2p6dhS5N-gGeg4DP8b:APA91bG3-pB7MolXw6XxJSSy2pAkKX7ck_-AE--ebXIwrxVzpjK3qFiMz9BJ3CUANhYBPi6Yx_EkpYRmylr9uRol9_-0xCcnN6wvL75val1T2mzS4L4Bdu9umRJC-3t2x83i0bFplapX', notificationPayload);
-                    console.log("don wrok")
                     return res.json({ message: "Valid User", data: user })
                 }
             }

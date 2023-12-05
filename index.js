@@ -13,7 +13,6 @@ app.use(cors({
 }))
 
 
-console.log(process.env.SECRET_KEY)
 require("./db/connection")
 
 app.get("/",async(req,res)=>{
